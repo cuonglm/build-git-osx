@@ -1,0 +1,41 @@
+#!/bin/sh
+
+set -ef
+
+LC_ALL=C
+IFS='
+'
+BG_REPO='https://github.com/git/git.git'
+BG_DIR='git'
+BG_VERSION=${BG_VERSION:-2.9.3}
+
+die() {
+    [ "$#" -gt 0 ] && printf '%s\n' "$*"
+    exit 1
+}
+
+for cmd in brew git; do
+    command -v "$cmd" || die "Missing $cmd"
+done
+
+brew update
+brew install autoconf   \
+             automake   \
+             openssl    \
+             asciidoc   \
+             xmlto      \
+             pkg-config \
+
+if [ ! -d "BG_DIR" ]; then
+    git clone "$BG_REPO" "$BG_DIR"
+fi
+
+cd "$BG_DIR"
+git checkout "$BG_VERSION"
+make clean distclean
+./configure LDFLAGS=-L/usr/local/opt/openssl/lib CPPFLAGS=-I/usr/local/opt/openssl/include
+make
+export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+make install install-man
+
+./git version
