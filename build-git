@@ -7,7 +7,7 @@ IFS='
 '
 BG_REPO='https://github.com/git/git.git'
 BG_DIR='git'
-BG_VERSION=${BG_VERSION:-2.9.3}
+BG_VERSION=${BG_VERSION:-v2.9.3}
 
 die() {
     [ "$#" -gt 0 ] && printf '%s\n' "$*"
