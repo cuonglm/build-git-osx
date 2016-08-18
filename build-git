@@ -33,6 +33,7 @@ fi
 cd "$BG_DIR"
 git checkout "$BG_VERSION"
 make clean distclean
+make configure
 ./configure LDFLAGS=-L/usr/local/opt/openssl/lib CPPFLAGS=-I/usr/local/opt/openssl/include
 make
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
